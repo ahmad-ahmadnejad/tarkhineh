@@ -9,7 +9,7 @@ const Footer = () => {
 
 
     return ( 
-        <div className="fixed bottom-0 left-0 w-full flex flex-row-reverse justify-between items-center p-4 text-white " style={{backgroundImage:`url(${'/images/footer_back.jpg'})`}}>
+        <div className=" bottom-0 left-0 w-full flex flex-row-reverse justify-between items-center p-4 text-white " style={{backgroundImage:`url(${'/images/footer_back.jpg'})`}}>
 
                 <div className="flex flex-col justify-center items-center gap-4 min-w-[200px] text-center" >
                     <h2 className="font-bold text-xl">دسترسی آسان</h2>
