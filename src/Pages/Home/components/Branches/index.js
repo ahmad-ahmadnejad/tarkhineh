@@ -7,7 +7,7 @@ const Branches = () => {
 
 
     const getBranchData = async() => { 
-        const response = await axios.get('https://57ef04b8-e705-45e9-9afe-bb71f99f05d3.mock.pstmn.io/branches');
+        const response = await axios.get('https://82d4d64c-bce0-4f3b-94e9-624d12cee2ed.mock.pstmn.io/branches');
        console.log(response,'response');
         const {data} = response
         setBranchs(data.data)
@@ -41,3 +41,4 @@ const Branches = () => {
 }
  
 export default Branches;
+
