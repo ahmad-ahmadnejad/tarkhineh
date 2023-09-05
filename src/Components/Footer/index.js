@@ -1,5 +1,7 @@
 import  { InstagramOutlined,TwitterOutlined,MailOutlined } from '@ant-design/icons'
+import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { cartContext } from '../../App';
 const Footer = () => {
     const navigate = useNavigate();
 
@@ -7,7 +9,8 @@ const Footer = () => {
         navigate('/blogs')
     }
 
-
+    const myCart = useContext(cartContext)
+console.log(myCart,'myCart');
     return ( 
         <div className=" bottom-0 left-0 w-full flex flex-row-reverse justify-between items-center p-4 text-white " style={{backgroundImage:`url(${'/images/footer_back.jpg'})`}}>
 
@@ -43,7 +46,7 @@ const Footer = () => {
                     <h2>شعبه های ترخینه </h2>
                     <h4> شعبه اکباتان </h4>
                     <h4>شعبه چالوس </h4>
-                    <h4>شعبه اقدسیه</h4>
+                    <h4>{myCart.cartFood.length} تعداد محصولات خریداری شده:</h4>
                 </div>               
 
 

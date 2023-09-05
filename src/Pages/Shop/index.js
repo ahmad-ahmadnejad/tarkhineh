@@ -1,12 +1,15 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import FoodItem from "./component/foodItem";
 import axios from "axios";
-import { Button, message } from "antd";
+import {  message } from "antd";
+import { cartContext } from "../../App";
 
 const Shop = () => {
-    const [counter,setCounter] = useState(1)
-    
     const [foods,setFoods] = useState([])
+    // const [cartFood,setCartFood]=useState([])
+    const cartFood = useContext(cartContext)
+
+
     useEffect(()=>{ 
         axios.get('https://82d4d64c-bce0-4f3b-94e9-624d12cee2ed.mock.pstmn.io/products').then(({data})=>{
         setFoods(data.data)
@@ -15,34 +18,41 @@ const Shop = () => {
         })
     },[])
 
-    const buyFoodHandler = (item) => { 
-        console.log(item,'item');
-        const prevCartArr = JSON.parse( localStorage.getItem('cart'))
-        console.log(prevCartArr,'prevCartObj');
-        
-        if(prevCartArr){ 
+    // //  get From localStorage
+    // useEffect(()=>{
+    //     const prevCartArr = JSON.parse(localStorage.getItem('cart'))
+    //     if(prevCartArr){
+    //         setCartFood(prevCartArr)
+    //     } else { 
+    //         setCartFood([])
+    //     }
+    // },[])
 
-            const duplicate = prevCartArr.map((itm)=>{
-                return itm.id === item.id ? true : false   
-            })
-            console.log(duplicate,'duplicate');
-            if(duplicate.includes(true)){
-               
-                message.error('غذای انتخابی تکراری است')
-            } else { 
-            // برای غذای دوم به بعد
-            prevCartArr.push(item)
-            console.log(prevCartArr,'prevCartArr');
-            localStorage.setItem('cart',JSON.stringify(prevCartArr))
-            message.success('غذا به سبد خرید اضافه شد')
-            }
-           
-        } else { 
-            // برای غذای اولمون
-            localStorage.setItem('cart',JSON.stringify([item]))
-            message.success('غذا به سبد خرید اضافه شد')
+
+    // // Set to localStorage
+    // useEffect(()=>{
+    //     if(cartFood !== undefined && cartFood.length > 0){
+    //         localStorage.setItem('cart',JSON.stringify(cartFood))
+    //     }
+    // },[cartFood])
+
+  
+    const buyFoodHandler = (newFood) => { 
+        // اولین غذا
+        if(cartFood.cartFood === undefined || cartFood.cartFood.length === 0) { 
+            cartFood.setCartFoodHandler([newFood])// [{}]
+        } else {
+            // دومین یا بیشتر
+        const duplicate = cartFood.cartFood?.map((itm)=>{
+            return itm.id === newFood.id ? true : false   
+        })
+        if(duplicate.includes(true)) {
+            // اگه غذای تکراری وجود داشت
+            message.warning('غذا تکراری است',0.5)
+        } else{ 
+            cartFood.setCartFoodHandler([...cartFood.cartFood,newFood])
         }
-    }
+        }}
 
     return (
         <>
@@ -63,7 +73,6 @@ const Shop = () => {
          
             </div>
 
-            <Button onClick={()=>setCounter(counter+1)} >+</Button>
         </>
        
      );
